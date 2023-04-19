@@ -1,24 +1,35 @@
 import React from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ImageBackground,Image,Text, TextInput,Button,DatePickerIOS} from 'react-native';
+import { StyleSheet, View,Text, TextInput,Button,TouchableOpacity} from 'react-native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import{ useState } from 'react';
 import axios from "./api/axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Attendance = () => {
   const Drawer = createDrawerNavigator();
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [presentCount, setPresentCount] = useState('');
   const [absentCount, setAbsentCount] = useState('');
   const totalCount = parseInt(presentCount) + parseInt(absentCount);
 
+  const handleDateSelect = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(false);
+    setDate(currentDate);
+  };
     const handleSave = async(e) => {
       // Save attendance to database or API
       e.preventDefault();
 
+      const emailStr = await AsyncStorage.getItem('email')
+      const email = JSON.parse(emailStr)
+
       try{
         const response = await axios.post('/attendance', 
           JSON.stringify({
+            email,
             date,
             presentCount,
             absentCount,
@@ -28,7 +39,9 @@ const Attendance = () => {
             headers: { 'Content-Type': 'application/json'},
           })
 
-        window.alert("Registration Successful!")
+        window.alert("Attendance Saved Successfully!")
+
+        await AsyncStorage.setItem('attendanceData', JSON.stringify((response.data)))
   
     
       }catch(error){
@@ -36,25 +49,37 @@ const Attendance = () => {
       }
     
     };
-    
+
     const handleAdd = () => {
-      // Add new schedule
-      console.log('Adding new schedule')
-    };
+    setDate(new Date());
+    setPresentCount('');
+    setAbsentCount('');
+  };
+    
 
 
   return (
     
-      <View style={styles.container}>
-       <Text style={{ color: 'white'}} >Date:</Text>
-        <TextInput
-          style={styles.input}
-          value={date}
-          onChangeText={text => setDate(text)}
-          placeholder="yyyy-mm-dd"
-          placeholderTextColor="white"
-          keyboardType='numeric'
-        />
+        <View style={styles.container}>
+        <Text style={{ color: 'white', margin: -20 }}>Date:</Text>
+  <View style={styles.dateContainer}>
+    <TouchableOpacity
+      style={styles.dateInput}
+      onPress={() => setShowDatePicker(true)}
+    >
+      <Text style={styles.dateText}>
+        {date.toLocaleDateString('en-GB')}
+      </Text>
+    </TouchableOpacity>
+  </View>
+  {showDatePicker && (
+    <DateTimePicker
+      value={date}
+      mode="date"
+      display="default"
+      onChange={handleDateSelect}
+    />
+  )}
         <Text style={{ color: 'white'}} >Present:</Text>
         <TextInput
           placeholder="Enter the total no of present student"
@@ -80,28 +105,46 @@ const Attendance = () => {
         </View>
           
            
-          <View style={styles.buttonContainer}>
-        <Button 
-            title="Save" 
-            onPress={handleSave} 
-          />
-        
-        <Button 
-        title="Add" 
-        onPress={handleAdd}
-        />
-        </View>
+        <TouchableOpacity style={styles.button} onPress={handleSave}>
+          <Text style={styles.buttonText}>SAVE</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.clearButton} onPress={handleAdd}>
+  <Text style={styles.buttonText}>ADD NEW</Text>
+        </TouchableOpacity>
+
       </View>
+
+      
       
   )};
 
   const styles = StyleSheet.create({
     container: {
-      backgroundColor:'black',
+      backgroundColor:'rgb(17, 82, 96)',
       padding: 20,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    dateContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '80%',
+      padding:20,
+
+    },
+    dateInput: {
+      borderWidth: 1,
+      borderColor: 'white',
+      borderRadius: 10,
+      padding: 15,
+      width: '115%',
+    },
+    dateText: {
+      color: 'white',
+      fontSize: 16,
     },
     input: {
       width: '80%',
@@ -126,7 +169,7 @@ const Attendance = () => {
     },
     totalContainer:{
       width: '80%',
-      height:'10%',
+      height:'7%',
       color: "white",
       borderWidth: 1,
       borderColor: 'white',
@@ -134,18 +177,25 @@ const Attendance = () => {
       marginBottom: 20,
       borderRadius: 10,
     },
-
     button: {
-      width: '45%',
-      backgroundColor: 'white',
-      padding: 10,
+      backgroundColor: 'blue',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
       borderRadius: 5,
     },
     buttonText: {
-      color: 'white',
+      color: '#ffffff',
+      fontSize: 16,
       fontWeight: 'bold',
-      textAlign: 'center',
     },
+    clearButton: {
+      backgroundColor: 'red',
+      paddingVertical: 10,
+      paddingHorizontal: 7,
+      borderRadius: 5,
+      marginTop: 20,
+      alignSelf: 'center',
+    }
   });
       
     export default Attendance;

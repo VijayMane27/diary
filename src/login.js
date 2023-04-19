@@ -2,9 +2,8 @@ import React, { useState,useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, View, ImageBackground, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import axios from './api/axios';
-import {AsyncStorage} from 'react-native';
 
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
 
@@ -25,30 +24,23 @@ const Login = () => {
         {
           headers: { 'Content-Type': 'application/json'},
         })
-      setValues({
-        email: "",
-        password: "",
-      })
-      
-      window.alert("Login Successful!")
+
+     
       if(response.data.token){
         const token = response.data.token
         await AsyncStorage.setItem('token',token)
-        
+        console.log("Successful Item")
       }
-      return response;
+      await AsyncStorage.setItem('email', JSON.stringify(response.data.account.email))
 
-      
+      navigation.navigate('Drawer');
 
-     // navigate('/')
-  
+
     }catch(error){
-      window.alert("Error")
+      console.log(error);
+      alert("Invalid email or password!");
     }
   
-
-  
-    navigation.navigate('Drawer');
   };
   
   return (
@@ -135,6 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   input: {
+    color:'black',
     height: 40,
     width: '70%',
     backgroundColor: 'lightblue',

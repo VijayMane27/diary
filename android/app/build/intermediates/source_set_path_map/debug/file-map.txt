@@ -34,9 +34,11 @@ com.diary.app-merged_res-32 D:\diary\android\app\build\intermediates\merged_res\
 com.diary.app-debug-33 D:\diary\android\app\src\debug\res
 com.diary.app-main-34 D:\diary\android\app\src\main\res
 com.diary.app-packaged_res-35 D:\diary\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-36 D:\diary\node_modules\@react-native-picker\picker\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-37 D:\diary\node_modules\react-native-auth0\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-38 D:\diary\node_modules\react-native-date-picker\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-39 D:\diary\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-40 D:\diary\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
-com.diary.app-packaged_res-41 D:\diary\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-36 D:\diary\node_modules\@react-native-community\datetimepicker\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-37 D:\diary\node_modules\@react-native-picker\picker\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-38 D:\diary\node_modules\react-native-auth0\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-39 D:\diary\node_modules\react-native-date-picker\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-40 D:\diary\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-41 D:\diary\node_modules\react-native-html-to-pdf\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-42 D:\diary\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-43 D:\diary\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
