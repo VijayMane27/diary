@@ -1,10 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, View, ImageBackground, Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ImageBackground, Text, TextInput, TouchableOpacity } from 'react-native';
 import axios from './api/axios';
-
-
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
@@ -53,40 +50,39 @@ const Login = () => {
         resizeMode='contain'>
         
         <TouchableOpacity style={styles.signInButton} onPress={() => navigation.navigate('signup')}>
-          <Text style={styles.signInText}>Sign Up</Text>
-        </TouchableOpacity>
+  <Text style={styles.signInText}>Sign Up</Text>
+</TouchableOpacity>
 
-        <Text style={styles.userStyle}>TEACHER'S DIARY</Text>
+<Text style={[styles.signInText, styles.adminLoginText]} onPress={() => navigation.navigate('AdminLogin')}>
+  Admin Login
+</Text>
 
-        <View style={styles.bottomContainer}>
+<Text style={styles.userStyle}>TEACHER'S DIARY</Text>
 
-          <View style={styles.form}>
+<View style={styles.bottomContainer}>
+  <View style={styles.form}>
+    <Text style={styles.subheading}>Email</Text>
+    <TextInput
+      style={styles.input}
+      value={email}
+      onChangeText={text => setEmail(text)}
+    />
+  </View>
 
-            <Text style={styles.subheading}>Email</Text>
-            <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={text => setEmail(text)}
-      />
-          </View>
+  <View style={styles.form}>
+    <Text style={styles.subheading}>Password</Text>
+    <TextInput
+      style={styles.input}
+      secureTextEntry={true}
+      value={password}
+      onChangeText={text => setPassword(text)}
+    />
+  </View>
 
-          <View style={styles.form}>
-
-            <Text style={styles.subheading}>Password</Text>
-            <TextInput
-            style={styles.input}
-            secureTextEntry={true}
-            value={password}
-            onChangeText={text => setPassword(text)}
-      />
-
-          </View>
-
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>LogIn</Text>
-          </TouchableOpacity>
-        </View>
-
+  <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+    <Text style={styles.buttonText}>LogIn</Text>
+  </TouchableOpacity>
+</View>
       </ImageBackground>
     </View>
   );
@@ -161,8 +157,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold'
   },
-  
-
+  adminLoginText: {
+    left:15,
+    marginTop: 20,
+    textDecorationLine: 'underline',
+    color: 'blue'
+  }
 });
 
 export default Login;

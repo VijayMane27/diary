@@ -1,13 +1,11 @@
-import React from "react";
-import { useState,useRef } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity,Keyboard,TouchableWithoutFeedback } from 'react-native';
+import React, { useEffect } from "react";
+import { useState, useRef } from 'react';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
 import axios from "./api/axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const Schedule = () => {
 
@@ -15,21 +13,32 @@ const Schedule = () => {
 
   const classes = ['FYIT', 'SYIT', 'TYIT'];
 
-  const coursesByClass = {
-    FYIT: ['Imperative Programming', 'Digital Electronics', 'Operating Systems', 'Discrete Maths', 'OOPS', 'Micro processor and controllers', 'Web Application', 'Numerical Methods', 'Green IT'],
-    SYIT: ['Python', 'Data Structures', 'Computer Network', 'DBMS', 'Applied Maths', 'Core java', 'Embedded Systems', 'COST', 'Software Engineering', 'CGA'],
-    TYIT: ['SPM', 'IOT', 'AWP', 'AI', 'Mongo db', 'SQA', 'SIC', 'GIS', 'CYBER LAW', 'BI'],
-  };
-
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [className, setClassName] = useState(classes[0]);
+  const [displayCourses, setDisplayCourses] = useState([]);
+  const [course, setCourse] = useState('');
   const [timeFrom, setTimeFrom] = useState('');
   const [timeTo, setTimeTo] = useState('');
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [timePickerFor, setTimePickerFor] = useState('');
-  const [course, setCourse] = useState(coursesByClass[className][0]);
   const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const getData = async () => {
+    try {
+      const SubjectResponse = await axios.get(`/Subject/Class/${className}`, {
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      });
+      setDisplayCourses(SubjectResponse.data);
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+
 
 
   const handleDateSelect = (event, selectedDate) => {
@@ -40,7 +49,7 @@ const Schedule = () => {
 
   const handleClassChange = (itemValue) => {
     setClassName(itemValue);
-    setCourse(coursesByClass[itemValue][0]);
+    getData();
   };
 
   const timeFromPickerHandler = (event, selectedTime) => {
@@ -63,26 +72,26 @@ const Schedule = () => {
     setShowTimePicker(true);
     setTimePickerFor(pickerFor);
   };
-  
-    const timeFromInputRef = useRef(null);
-    const timeToInputRef = useRef(null);
-  
-    const hideKeyboard = () => {
-      Keyboard.dismiss();
-    };
-  
-    const handleTimeFromFocus = () => {
-      timeFromInputRef.current.focus();
-      hideKeyboard();
-      showTimePickerHandler(null, 'timeFrom');
-    };
-  
-    const handleTimeToFocus = () => {
-      timeToInputRef.current.focus();
-      hideKeyboard();
-      showTimePickerHandler(null, 'timeTo');
-    };
-  
+
+  const timeFromInputRef = useRef(null);
+  const timeToInputRef = useRef(null);
+
+  const hideKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
+  const handleTimeFromFocus = () => {
+    timeFromInputRef.current.focus();
+    hideKeyboard();
+    showTimePickerHandler(null, 'timeFrom');
+  };
+
+  const handleTimeToFocus = () => {
+    timeToInputRef.current.focus();
+    hideKeyboard();
+    showTimePickerHandler(null, 'timeTo');
+  };
+
 
   const handleSave = async (e) => {
     // Save attendance to database or API
@@ -91,21 +100,21 @@ const Schedule = () => {
     const emailStr = await AsyncStorage.getItem('email')
     const email = JSON.parse(emailStr)
 
-     // Parse hours and minutes from timeFrom and timeTo
-  const fromParts = timeFrom.split(':')
-  const toParts = timeTo.split(':')
-  const fromHours = parseInt(fromParts[0], 10)
-  const fromMinutes = parseInt(fromParts[1], 10)
-  const toHours = parseInt(toParts[0], 10)
-  const toMinutes = parseInt(toParts[1], 10)
+    // Parse hours and minutes from timeFrom and timeTo
+    const fromParts = timeFrom.split(':')
+    const toParts = timeTo.split(':')
+    const fromHours = parseInt(fromParts[0], 10)
+    const fromMinutes = parseInt(fromParts[1], 10)
+    const toHours = parseInt(toParts[0], 10)
+    const toMinutes = parseInt(toParts[1], 10)
 
-  // Calculate difference in minutes
-  const diff = ((toHours * 60) + toMinutes) - ((fromHours * 60) + fromMinutes)
+    // Calculate difference in minutes
+    const diff = ((toHours * 60) + toMinutes) - ((fromHours * 60) + fromMinutes)
 
-  if (diff < 0 || diff > 300) { // Difference is negative or more than 5 hours
-    window.alert("Invalid time range!")
-    return
-  }
+    if (diff < 0 || diff > 300) { // Difference is negative or more than 5 hours
+      window.alert("Invalid time range!")
+      return
+    }
 
     try {
       const response = await axios.post('/schedule',
@@ -136,7 +145,7 @@ const Schedule = () => {
     setClassName(classes[0]);
     setTimeFrom('');
     setTimeTo('');
-    setCourse(coursesByClass[classes[0]][0]);
+    setDisplayCourses([]);
     setNotes('');
   };
 
@@ -177,51 +186,55 @@ const Schedule = () => {
         </Picker>
       </View>
       <TouchableWithoutFeedback onPress={hideKeyboard}>
-  <React.Fragment>
-    <Text style={{ color: 'white' }}>TimeFrom</Text>
-    <TextInput
-      ref={timeFromInputRef}
-      style={styles.input}
-      placeholder="Time From (HH:mm)"
-      placeholderTextColor="white"
-      value={timeFrom}
-      onChangeText={(text) => setTimeFrom(text)}
-      onFocus={handleTimeFromFocus}
-    />
-    <Text style={{ color: 'white' }}>TimeTo</Text>
-    <TextInput
-      ref={timeToInputRef}
-      style={styles.input}
-      placeholder="Time To (HH:mm)"
-      placeholderTextColor="white"
-      value={timeTo}
-      onChangeText={(text) => setTimeTo(text)}
-      onFocus={handleTimeToFocus}
-    />
-    {showTimePicker && (
-      <DateTimePicker
-        testID={`${timePickerFor}Picker`}
-        value={new Date()}
-        mode={'time'}
-        is24Hour={false}
-        display="default"
-        onChange={timePickerFor === 'timeFrom' ? timeFromPickerHandler : timeToPickerHandler}
-      />
-    )}
-  </React.Fragment>
-</TouchableWithoutFeedback>
+        <React.Fragment>
+          <Text style={{ color: 'white' }}>TimeFrom</Text>
+          <TextInput
+            ref={timeFromInputRef}
+            style={styles.input}
+            placeholder="Time From (HH:mm)"
+            placeholderTextColor="white"
+            value={timeFrom}
+            onChangeText={(text) => setTimeFrom(text)}
+            onFocus={handleTimeFromFocus}
+          />
+          <Text style={{ color: 'white' }}>TimeTo</Text>
+          <TextInput
+            ref={timeToInputRef}
+            style={styles.input}
+            placeholder="Time To (HH:mm)"
+            placeholderTextColor="white"
+            value={timeTo}
+            onChangeText={(text) => setTimeTo(text)}
+            onFocus={handleTimeToFocus}
+          />
+          {showTimePicker && (
+            <DateTimePicker
+              testID={`${timePickerFor}Picker`}
+              value={new Date()}
+              mode={'time'}
+              is24Hour={false}
+              display="default"
+              onChange={timePickerFor === 'timeFrom' ? timeFromPickerHandler : timeToPickerHandler}
+            />
+          )}
+        </React.Fragment>
+      </TouchableWithoutFeedback>
       <Text style={{ color: 'white' }} >Subject:</Text>
-      <View style={styles.picker}>
-        <Picker
-          style={styles.input}
-          selectedValue={course}
-          onValueChange={setCourse}
-        >
-          {coursesByClass[className].map((course) => (
-            <Picker.Item key={course} label={course} value={course} />
-          ))}
-        </Picker>
-      </View>
+<View style={styles.picker}>
+<Picker
+  style={styles.input}
+  onValueChange={(itemValue) => {
+    setCourse(itemValue);
+    console.log(itemValue);
+  }}
+  selectedValue={course}
+>
+    {displayCourses.map((cou) => (
+      <Picker.Item key={cou} label={cou} value={cou} />
+    ))}
+  </Picker>
+</View>
+
       <Text style={{ color: 'white' }} >Notes</Text>
       <TextInput
         style={styles.input}

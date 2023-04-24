@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import { useFocusEffect } from '@react-navigation/native';
+import { color } from 'react-native-reanimated';
 
 const Review = () => {
   const Drawer = createDrawerNavigator();
@@ -45,6 +46,24 @@ const Review = () => {
     }
   };
   
+  const deleteRow = async (id) => {
+    const emailStr = await AsyncStorage.getItem('email')
+    const email = JSON.parse(emailStr)
+  
+    try {
+      await axios.delete(`/schedule/${email}/${id}`, {
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      });
+      const updatedSchedules = schedules.filter((item, index) => index !== id);
+      const updatedAttendances = attendances.filter((item, index) => index !== id);
+      setReviews(updatedSchedules);
+      setAttendnaces(updatedAttendances);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
   useFocusEffect(
     React.useCallback(() => {
       getData();
@@ -54,66 +73,92 @@ const Review = () => {
   const generatePDF = async (attendances, schedules) => {
     let tableRows = '';
     schedules.forEach((schedule, id) => {
-      const attendance = attendances[id];
-      const dateObj = new Date(attendance?.date);
-      const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
-      tableRows += `
-        <tr>
-          <td>${formattedDate}</td>
-          <td>${schedule.className}</td>
-          <td>${schedule.timeFrom}</td>
-          <td>${schedule.timeTo}</td>
-          <td>${schedule.course}</td>
-          <td>${schedule.notes}</td>
-          <td>${attendance?.presentCount}</td>
-          <td>${attendance?.absentCount}</td>
-          <td>${attendance?.totalCount}</td>
-        </tr>
-      `;
+        const attendance = attendances[id];
+        const dateObj = new Date(attendance?.date);
+        const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+        tableRows += `
+            <tr>
+                <td>${formattedDate}</td>
+                <td>${schedule.className}</td>
+                <td>${schedule.timeFrom}</td>
+                <td>${schedule.timeTo}</td>
+                <td>${schedule.course}</td>
+                <td>${schedule.notes}</td>
+                <td>${attendance?.presentCount}</td>
+                <td>${attendance?.absentCount}</td>
+                <td>${attendance?.totalCount}</td>
+            </tr>
+        `;
     });
-  
+
     const html = `
-      <html>
-        <head>
-          <style>
-            table {
-              border-collapse: collapse;
-              width: 100%;
-            }
-            th, td {
-              padding: 8px;
-              text-align: left;
-              border-bottom: 1px solid #ddd;
-              font-size: 11px;
-            }
-            th {
-              background-color: #f2f2f2;
-            }
-          </style>
-        </head>
-        <body>
-          <h2>REVIEW TABLE</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Class</th>
-                <th>Time From</th>
-                <th>Time To</th>
-                <th>Course</th>
-                <th>Notes</th>
-                <th>Present</th>
-                <th>Absent</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${tableRows}
-            </tbody>
-          </table>
-        </body>
-      </html>
+        <html>
+            <head>
+                <style>
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                        border-bottom: 1px solid #ddd;
+                        font-size: 11px;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    .signatures {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 30px;
+                        font-size: 11px;
+                    }
+                    .signature-box {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>REVIEW TABLE</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Class</th>
+                            <th>Time From</th>
+                            <th>Time To</th>
+                            <th>Course</th>
+                            <th>Notes</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+                <div class="signatures">
+                    <div class="signature-box">
+                        <p>HOD Signature:</p>
+                        <p>_______________________</p>
+                    </div>
+                    <div class="signature-box">
+                        <p>Principal Signature:</p>
+                        <p>_______________________</p>
+                    </div>
+                </div>
+            </body>
+        </html>
     `;
+
+    // Code to generate PDF from the HTML string goes here...
+
+
+    // Code to generate PDF from the HTML string goes here...
     
     const options = {
       html,
@@ -147,101 +192,104 @@ const Review = () => {
   };
 
   return (
-  
-     <ScrollView backgroundColor='rgb(17, 82, 96)'>
+    <ScrollView backgroundColor='white'>
       <View style={styles.container}>
         <Text style={styles.header}>Review Table</Text>
         <View style={styles.table}>
           <View style={styles.row}>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Date</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Class</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Time From</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Time To</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Course</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Notes</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Present</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Absent</Text>
-          <Text style={[styles.column, styles.boldColumn,{ color: 'pink' }]}>Total</Text>
-         
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Date</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Class</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Time From</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Time To</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Course</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Notes</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Present</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Absent</Text>
+            <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Total</Text>
+            {/* <Text style={[styles.column, styles.boldColumn, { color: 'pink' }]}>Delete</Text>  */}
           </View>
-          {schedules.map((item, id) =>{
-        const attendance = attendances[id];
-        const dateObj = new Date(attendance?.date);
-        const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
-        return (
-          <View key={id} style={styles.row}>
-            <Text style={styles.column}>{formattedDate}</Text>
-            <Text style={styles.column}>{item.className}</Text>
-            <Text style={styles.column}>{item.timeFrom}</Text>
-            <Text style={styles.column}>{item.timeTo}</Text>
-            <Text style={styles.column}>{item.course}</Text>
-            <Text style={styles.column}>{item.notes}</Text>
-            <Text style={styles.column}>{attendance?.presentCount}</Text>
-            <Text style={styles.column}>{attendance?.absentCount}</Text>
-            <Text style={styles.column}>{attendance?.totalCount}</Text>
+          {schedules.map((item, id) => {
+            const attendance = attendances[id];
+            const dateObj = new Date(attendance?.date);
+            const formattedDate = `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+            return (
+              <View key={id} style={styles.row}>
+                <Text style={styles.column}>{formattedDate}</Text>
+                <Text style={styles.column}>{item.className}</Text>
+                <Text style={styles.column}>{item.timeFrom}</Text>
+                <Text style={styles.column}>{item.timeTo}</Text>
+                <Text style={styles.column}>{item.course}</Text>
+                <Text style={styles.column}>{item.notes}</Text>
+                <Text style={styles.column}>{attendance?.presentCount}</Text>
+                <Text style={styles.column}>{attendance?.absentCount}</Text>
+                <Text style={styles.column}>{attendance?.totalCount}</Text>
+                {/* <TouchableOpacity style={styles.deleteButton} onPress={() => deleteRow(id)}>
+  <Text style={styles.deleteButtonText}>Delete</Text>
+</TouchableOpacity> */}
+
               </View>
             );
           })}
         </View>
         <TouchableOpacity style={styles.button} onPress={downloadPDF}>
           <Text style={styles.buttonText}>Download PDF</Text>
-</TouchableOpacity>
+        </TouchableOpacity>
       </View>
     </ScrollView>
-  
   );
-};
+        };  
 
 
-  const styles = StyleSheet.create({
-    
-    container: {
-      flex: 1,
-      padding: 10,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor:'rgb(17, 82, 96)'
-    },
-    header: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    table: {
-      width: '100%',
-      borderWidth: 1,
-      borderColor: 'black',
-      marginTop: 20,
-      marginBottom: 20,
-    },
-    row: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      borderColor: 'white',
-      borderWidth: 1
-    },
-    column: {
-      flex: 1,
-      padding: 10,
-      textAlign: 'center',
-      borderColor: 'white',
-      borderWidth: 1,
-      fontSize:8
-    },
-    boldColumn: {
-      fontWeight: 'bold',
-      fontSize:7  
-    },
-    button: {
-      backgroundColor: 'blue',
-      padding: 10,
-      borderRadius: 5,
-    },
-    buttonText: {
-      color: 'white',
-      fontWeight: 'bold',
-    },
-  });
-  
+        const styles = StyleSheet.create({
+          container: {
+            flex: 1,
+            padding: 20,
+            backgroundColor: 'white',
+          },
+          header: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: 'black',
+            marginBottom: 20,
+          },
+          table: {
+            borderWidth: 1,
+            borderColor: 'black',
+          },
+          row: {
+            flexDirection: 'row',
+            borderBottomWidth: 1,
+            borderColor: 'black',
+            paddingVertical: 10,
+      
+          },
+          column: {
+            flex: 1,
+            textAlign: 'center',
+            color: 'black',
+            fontSize:7
+          },
+          boldColumn: {
+            fontWeight: 'bold',
+          },
+          button: {
+            backgroundColor: 'black',
+            borderRadius: 5,
+            padding: 10,
+            marginTop: 20,
+            alignSelf: 'center',
+          },
+          buttonText: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: 'white',
+          },
+          deleteButtonText:{
+            color:'blue',
+            fontSize:8,
+            textDecorationLine: "underline",
+             }
+        });
+        
 
 export default Review;
