@@ -128,26 +128,43 @@
 71        </activity>
 72
 73        <provider
-73-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
-74            android:name="androidx.startup.InitializationProvider"
-74-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
-75            android:authorities="com.diary.androidx-startup"
-75-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
-76            android:exported="false" >
-76-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
-77            <meta-data
-77-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
-78                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-78-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
-79                android:value="androidx.startup" />
-79-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
-80            <meta-data
-80-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
-81                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-81-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
-82                android:value="androidx.startup" />
-82-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
-83        </provider>
-84    </application>
-85
-86</manifest>
+73-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+74            android:name="cl.json.RNShareFileProvider"
+74-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-55
+75            android:authorities="com.diary.rnshare.fileprovider"
+75-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-72
+76            android:exported="false"
+76-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+77            android:grantUriPermissions="true" >
+77-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+78            <meta-data
+78-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:64
+79                android:name="android.support.FILE_PROVIDER_PATHS"
+79-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+80                android:resource="@xml/share_download_paths" />
+80-->[:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-61
+81        </provider>
+82        <provider
+82-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+83            android:name="androidx.startup.InitializationProvider"
+83-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+84            android:authorities="com.diary.androidx-startup"
+84-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+85            android:exported="false" >
+85-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+86            <meta-data
+86-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+87                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+87-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+88                android:value="androidx.startup" />
+88-->[androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+89            <meta-data
+89-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+90                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+90-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+91                android:value="androidx.startup" />
+91-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+92        </provider>
+93    </application>
+94
+95</manifest>

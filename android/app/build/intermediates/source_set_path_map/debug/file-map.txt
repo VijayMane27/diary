@@ -42,3 +42,4 @@ com.diary.app-packaged_res-40 D:\diary\node_modules\react-native-gesture-handler
 com.diary.app-packaged_res-41 D:\diary\node_modules\react-native-html-to-pdf\android\build\intermediates\packaged_res\debug
 com.diary.app-packaged_res-42 D:\diary\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
 com.diary.app-packaged_res-43 D:\diary\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
+com.diary.app-packaged_res-44 D:\diary\node_modules\react-native-share\android\build\intermediates\packaged_res\debug

@@ -6,6 +6,7 @@ import axios from "./api/axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Schedule = () => {
 
@@ -25,12 +26,19 @@ const Schedule = () => {
   const [notes, setNotes] = useState('');
 
   useEffect(() => {
-    getData();
+    getData(classes[0]);
   }, [])
 
-  const getData = async () => {
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getData();
+  //   }, [])
+  // );
+
+  const getData = async (itemValue) => {
+
     try {
-      const SubjectResponse = await axios.get(`/Subject/Class/${className}`, {
+      const SubjectResponse = await axios.get(`/Subject/Class/${itemValue}`, {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       });
       setDisplayCourses(SubjectResponse.data);
@@ -49,7 +57,7 @@ const Schedule = () => {
 
   const handleClassChange = (itemValue) => {
     setClassName(itemValue);
-    getData();
+    getData(itemValue);
   };
 
   const timeFromPickerHandler = (event, selectedTime) => {
@@ -101,21 +109,35 @@ const Schedule = () => {
     const email = JSON.parse(emailStr)
 
     // Parse hours and minutes from timeFrom and timeTo
-    const fromParts = timeFrom.split(':')
-    const toParts = timeTo.split(':')
-    const fromHours = parseInt(fromParts[0], 10)
-    const fromMinutes = parseInt(fromParts[1], 10)
-    const toHours = parseInt(toParts[0], 10)
-    const toMinutes = parseInt(toParts[1], 10)
-
+    const fromParts = timeFrom.split(':');
+    const toParts = timeTo.split(':');
+    let fromHours = parseInt(fromParts[0], 10);
+    let fromMinutes = parseInt(fromParts[1], 10);
+    let toHours = parseInt(toParts[0], 10);
+    let toMinutes = parseInt(toParts[1], 10);
+    
+    // Handle edge cases for 12:00 AM and 12:00 PM
+    if (fromHours === 12 && timeFrom.includes('AM')) {
+      fromHours = 0;
+    }
+    if (toHours === 12 && timeTo.includes('AM')) {
+      toHours = 0;
+    }
+    if (fromHours !== 12 && timeFrom.includes('PM')) {
+      fromHours += 12;
+    }
+    if (toHours !== 12 && timeTo.includes('PM')) {
+      toHours += 12;
+    }
+    
     // Calculate difference in minutes
-    const diff = ((toHours * 60) + toMinutes) - ((fromHours * 60) + fromMinutes)
-
+    const diff = ((toHours * 60) + toMinutes) - ((fromHours * 60) + fromMinutes);
+    
     if (diff < 0 || diff > 300) { // Difference is negative or more than 5 hours
       window.alert("Invalid time range!")
-      return
+      return;
     }
-
+    
     try {
       const response = await axios.post('/schedule',
         JSON.stringify({
@@ -145,7 +167,6 @@ const Schedule = () => {
     setClassName(classes[0]);
     setTimeFrom('');
     setTimeTo('');
-    setDisplayCourses([]);
     setNotes('');
   };
 
@@ -225,7 +246,6 @@ const Schedule = () => {
   style={styles.input}
   onValueChange={(itemValue) => {
     setCourse(itemValue);
-    console.log(itemValue);
   }}
   selectedValue={course}
 >

@@ -6,6 +6,7 @@ import axios from "./api/axios";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { color } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Details = (props) => {
@@ -23,6 +24,13 @@ const Details = (props) => {
     address:'',
     bloodGroup:''    
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getData();
+    }, [])
+  );
+
 
 
   

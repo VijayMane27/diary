@@ -17,6 +17,7 @@ MERGED from [:react-native-gesture-handler] D:\diary\node_modules\react-native-g
 MERGED from [:react-native-html-to-pdf] D:\diary\node_modules\react-native-html-to-pdf\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-safe-area-context] D:\diary\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] D:\diary\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [com.facebook.react:react-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4e229b798ea401dd70d93b70ab758b74\transformed\jetified-react-android-0.71.2-debug\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\84f0fc81defe5e6700f5f727f4bb4862\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.react:hermes-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4042a6e940ffa9824a6e100716b949e5\transformed\jetified-hermes-android-0.71.2-debug\AndroidManifest.xml:2:1-9:12
@@ -119,6 +120,8 @@ MERGED from [:react-native-community_datetimepicker] D:\diary\node_modules\@reac
 MERGED from [:react-native-community_datetimepicker] D:\diary\node_modules\@react-native-community\datetimepicker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-20
 MERGED from [:react-native-auth0] D:\diary\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:5-54:19
 MERGED from [:react-native-auth0] D:\diary\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:24:5-54:19
+MERGED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
+MERGED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
 MERGED from [com.facebook.react:react-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4e229b798ea401dd70d93b70ab758b74\transformed\jetified-react-android-0.71.2-debug\AndroidManifest.xml:9:5-20
 MERGED from [com.facebook.react:react-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4e229b798ea401dd70d93b70ab758b74\transformed\jetified-react-android-0.71.2-debug\AndroidManifest.xml:9:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.4] C:\Users\vmane\.gradle\caches\transforms-3\acebd500a8778f4a55f62e1924db8de0\transformed\jetified-soloader-0.10.4\AndroidManifest.xml:11:5-20
@@ -217,6 +220,8 @@ MERGED from [:react-native-safe-area-context] D:\diary\node_modules\react-native
 MERGED from [:react-native-safe-area-context] D:\diary\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-screens] D:\diary\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-screens] D:\diary\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.react:react-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4e229b798ea401dd70d93b70ab758b74\transformed\jetified-react-android-0.71.2-debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.react:react-android:0.71.2] C:\Users\vmane\.gradle\caches\transforms-3\4e229b798ea401dd70d93b70ab758b74\transformed\jetified-react-android-0.71.2-debug\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\84f0fc81defe5e6700f5f727f4bb4862\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
@@ -435,6 +440,22 @@ REJECTED from [com.auth0.android:auth0:2.8.0] C:\Users\vmane\.gradle\caches\tran
 		ADDED from [:react-native-auth0] D:\diary\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:53:13-32
 	android:name
 		ADDED from [:react-native-auth0] D:\diary\node_modules\react-native-auth0\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:52:13-77
+provider#cl.json.RNShareFileProvider
+ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+	android:grantUriPermissions
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+	android:authorities
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-72
+	android:exported
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+	android:name
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-55
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:64
+	android:resource
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-61
+	android:name
+		ADDED from [:react-native-share] D:\diary\node_modules\react-native-share\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.0.0] C:\Users\vmane\.gradle\caches\transforms-3\6d2005a533fa4046737a8c8e298cc408\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\vmane\.gradle\caches\transforms-3\97b4285a8d91dd4dd6262c7e69c3843f\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:26:9-34:20
